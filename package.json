@@ -1,0 +1,20 @@
+{
+  "name": "feather-postprocessor-mod-wrapper",
+  "version": "0.1.0",
+  "description": "feather mod warpper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feather-ui/feather-postprocessor-mod-warpper.git"
+  },
+  "keywords": [
+    "feather",
+    "mod warpper"
+  ],
+  "author": {
+    "name": "jsyczhanghao@sina.com"
+  }
+}
