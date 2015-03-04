@@ -5,9 +5,10 @@ mod文件添加define头
 'use strict';
 
 var REQUIRE_REG = /require\((['"])([\s\S]+?)\1\)/g;
+var USE_REQUIRE = feather.config.get('moduleLoader') !== false;
 
 module.exports = function(content, file){
-	if(file.isMod && file.isJsLike){
+	if(file.isMod && file.isJsLike && USE_REQUIRE){
 		if(!/^\s*define\s*\(/.test(content)){
             content = "define('" + file.subpath + "', function(require, exports, module){" + content + "\r\n});";
         }
