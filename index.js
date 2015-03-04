@@ -4,12 +4,26 @@ mod文件添加define头
 
 'use strict';
 
-var REQUIRE_REG = /require\((['"])([\s\S]+?)\1\)/g;
+var REQUIRE_REG = /require\((['"])([\s\S]+?)\1\)/g, DEFINE_REG = /\/\/[^\r\n]*|\/\*[\s\S]*?\*\/|\b(define)\s*\((?:(\s*)|[\s\S]+?)function\(/g;
 var USE_REQUIRE = feather.config.get('moduleLoader') !== false;
 
 module.exports = function(content, file){
-	if(file.isMod && file.isJsLike && USE_REQUIRE){
-		if(!/^\s*define\s*\(/.test(content)){
+    if(file.isMod && file.isJsLike && USE_REQUIRE){
+        var found = false;
+
+        content = content.replace(DEFINE_REG, function($0, $1, $2){
+            if($1){
+                found = true;
+
+                if($2 != null){
+                    return 'define("' + file.subpath + '",function(';
+                }
+            }
+            
+            return $0;
+        });
+
+        if(!found){
             content = "define('" + file.subpath + "', function(require, exports, module){" + content + "\r\n});";
         }
 
@@ -19,7 +33,7 @@ module.exports = function(content, file){
             var file = feather.file.wrap(_2);
             return "require('" + (file.exists() ? file.subpath : _2) + "')";
         });
-	}
+    }
 
-	return content;
+    return content;
 };

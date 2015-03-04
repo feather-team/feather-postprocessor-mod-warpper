@@ -1,6 +1,6 @@
 {
   "name": "feather-postprocessor-mod-wrapper",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "feather mod warpper",
   "main": "index.js",
   "scripts": {
