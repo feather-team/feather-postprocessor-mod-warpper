@@ -5,9 +5,11 @@ mod文件添加define头
 'use strict';
 
 var REQUIRE_REG = /require\((['"])([\s\S]+?)\1\)/g, DEFINE_REG = /\/\/[^\r\n]*|\/\*[\s\S]*?\*\/|\b(define)\s*\(\s*((?:(?!function\()[\s\S])+,)?\s*function\(/g;
-//var USE_REQUIRE = feather.config.get('moduleLoader') !== false;
+var USE_REQUIRE = feather.config.get('require.use'), COMPONENT_USE_WRAPER = feather.config.get('require.componentUseWraper');
 
 module.exports = function(content, file){
+    if(file.isComponentLike && file.isJsLike && !USE_REQUIRE && !COMPONENT_USE_WRAPER) return content;
+
     if(file.isMod && file.isJsLike){
         var found = false;
 
@@ -24,7 +26,7 @@ module.exports = function(content, file){
         });
 
         if(!found){
-            content = "define('" + file.subpath + "', function(require, exports, module){" + content + "\r\n});";
+            content = "define('" + file.subpath + "', function(require, exports, module){\r\n" + content + "\r\n});";
         }
 
         //feather中require的模块 要么是以/开头 要么是可map读取，
